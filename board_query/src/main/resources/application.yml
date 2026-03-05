@@ -1,6 +1,17 @@
 server:
   port: 8082
 
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 10     # 주소를 갱신하는 시간
+    lease-expiration-duration-in-seconds: 30  # 가져온 주소의 만료 시간
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://localhost:9090/eureka
+    register-with-eureka: true  # 현재 자신의 IP주소를 유레카에 등록
+    fetch-registry: true        # 유레카에 등록된 주소들을 받아오는 것
+
 spring:
   application:
     name: board_query
@@ -9,6 +20,15 @@ spring:
     url: ${DB_URL}
     username: ${DB_USER}
     password: ${DB_PASS}
+  kafka:
+    bootstrap-servers: 10.10.10.100:9092
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      group-id: board-group-1
+      properties:
+        spring.json.trusted.packages: "*"
+        spring.json.use.type.headers: false
 
   jpa:
     database-platform: org.hibernate.dialect.MariaDBDialect
