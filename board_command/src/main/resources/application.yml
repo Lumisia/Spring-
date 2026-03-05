@@ -18,6 +18,16 @@ spring:
       hibernate:
         format_sql: true
 
+  kafka:
+    bootstrap-servers: 10.10.10.50:9092
+    consumer:
+      group-id: abcd-group-1 # 모든 컨슈머에 적용되는 기본값
+      key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+        spring.json.use.type.headers:
+
   logging:
     level:
       com.example.demo: debug
